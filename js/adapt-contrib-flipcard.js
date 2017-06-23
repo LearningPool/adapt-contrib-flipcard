@@ -16,20 +16,24 @@ define([
             'click .flipcard-item': 'onClickFlipItem'
         },
 
+        isChrome: false,
+
         preRender: function() {
             this.listenTo(Adapt, 'device:resize', this.reRender, this);
             this.checkIfResetOnRevisit();
 
+            this.isChrome = Adapt.device.browser === 'chrome' ? true : false;
+
             // Adding classes for ie8
             if ($('html').hasClass('ie8')) {
-              $(".flipcard-item:nth-child(even)").addClass("even");
-              $(".flipcard-item:nth-child(odd)").addClass("odd");
+              this.$(".flipcard-item:nth-child(even)").addClass("even");
+              this.$(".flipcard-item:nth-child(odd)").addClass("odd");
             }
         },
 
         // this is use to set ready status for current component on postRender.
         postRender: function() {
-            if (!Modernizr.csstransforms3d) {
+            if (!this.isChrome && !Modernizr.csstransforms3d) {
                 this.$('.flipcard-item-back').hide();
             }
 
@@ -99,7 +103,7 @@ define([
         // This function will be responsible to perform All flip on flipcard
         // where all cards can flip and stay in the flipped state.
         performAllFlip: function($selectedElement) {
-            if (!Modernizr.csstransforms3d) {
+            if (!this.isChrome && !Modernizr.csstransforms3d) {
                 var $frontflipcard = $selectedElement.find('.flipcard-item-front');
                 var $backflipcard = $selectedElement.find('.flipcard-item-back');
                 var flipTime = this.model.get('_flipTime') || 'fast';
@@ -124,7 +128,7 @@ define([
         // only one card can flip and stay in the flipped state.
         performSingleFlip: function($selectedElement) {
             var flipcardContainer = $selectedElement.closest('.flipcard-widget');
-            if (!Modernizr.csstransforms3d) {
+            if (!this.isChrome && !Modernizr.csstransforms3d) {
                 var frontflipcard = $selectedElement.find('.flipcard-item-front');
                 var backflipcard = $selectedElement.find('.flipcard-item-back');
                 var flipTime = this.model.get('_flipTime') || 'fast';
