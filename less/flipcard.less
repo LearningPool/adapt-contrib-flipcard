@@ -28,6 +28,15 @@
 	transition: opacity @duration @delay !important;
 }
 
+  // ADAPT-4343 Fixes a display bug in Edge
+  // Introduces other bugs in IOS so make it exclusive to Edge
+  // ADAPT-5242 fixes animation issue on edge
+  html.edge {
+    body {
+      transform-style: preserve-3d;
+    }
+  }
+
 // flipcard component styling
 .flipcard-component {
 
@@ -77,12 +86,6 @@
         }
 
         .vendor-prefix (perspective, 600px);
-
-        // ADAPT-4343 Fixes a display bug in Edge
-        // Introduces other bugs in IOS so make it exclusive to Edge
-        .edge & {
-          transform-style: preserve-3d;
-        }
 
         html.size-medium &,
         html.size-small & {
