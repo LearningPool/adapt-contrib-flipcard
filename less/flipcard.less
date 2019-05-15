@@ -140,8 +140,15 @@
       &.flipcard-item-front,
       &.flipcard-item-back {
         [class*='version-11'].ie & {
-          transform: none;
           transition: 0;
+        }
+      }
+      
+      &.flipcard-item-back[aria-hidden="false"] {
+        [class*='version-11'].ie & {
+          // stop text blur as flip is not currently
+          // supported in IE11
+          transform: none;
         }
       }
 
